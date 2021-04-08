@@ -3,6 +3,7 @@ package rpa.deputados.extractor.controller;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class CamaraController {
@@ -21,11 +22,16 @@ public class CamaraController {
 					.data("deputado", "141372")
 					.get();
 			
-			Elements tableAuxilio = document.select("div[id='tabela-em-dinheiro-modal'] [id='conteudo-tabela-comparativa'] tbody td ~ td ~ td ~ td");
+			Elements todosValores = document.select("p[class='gastos__resumo-texto gastos__resumo-texto--destaque']");
+			for (Element element : todosValores) {
+				log.info(element.toString());
+				// 1 - cota parlamentar
+				// 2 - verba de gabinete
+				// 3 - auxilio moradia
+				// 4 - salário bruto
+				//log.info(element.toString().replaceAll("\\D", ""));
+			}
 			
-			String valorAuxilioMoradia = tableAuxilio.get(0).toString();
-			
-			log.info(valorAuxilioMoradia.replaceAll("\\D", ""));
 			
 		} catch (Exception e) {
 			log.error(e.getMessage());
