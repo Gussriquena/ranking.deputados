@@ -32,13 +32,37 @@ public class CamaraController {
 						.get();
 				
 				Elements allLinks = document.select("[class='tabela-responsiva__linha']");
+				
 				for (Element element : allLinks) {
-					depNames.add(element.select("[data-th='Nome'] > a").text());
+					depNames.add(element.select("[data-th='Remuneração'] > a").attr("href"));
 					//log.info(element.select("[data-th='Nome'] > a").text() + " - " + element.select("[data-th='Remuneração'] > a").attr("href"));
+				
+					// tr[class=tabela-responsiva__linha]
 				}
 			}
 			
-			log.info(depNames.size());
+			//for (String depLink : depNames) {
+				Document document = Jsoup.connect("https://www.camara.leg.br/transparencia/recursos-humanos/remuneracao/DEdGyYroXbwnBb8AO7eg")
+						.data("ano", "2021")
+						.data("mes", "3")
+						.get();
+				
+				Elements tableRows = document.select("tr[class=tabela-responsiva__linha]");
+				
+				for (Element row : tableRows) {
+					if (row.text().contains("Remuneração após Descontos Obrigatórios")) {
+						log.info(row.text());
+					} else if(row.text().contains("Auxílios")){
+						log.info(row.text());
+					} else if(row.text().contains("Diárias")){
+						log.info(row.text());
+					} else if(row.text().contains("Gratificação Natalina")){
+						log.info(row.text());
+					} else if(row.text().contains("Férias (1/3 Constitucional)")){
+						log.info(row.text());
+					} 
+				}
+			//}
 			
 			/*
 			Document document = Jsoup.connect("https://www.camara.leg.br/transparencia/gastos-parlamentares")
